@@ -6,9 +6,9 @@
     <style>
         body {
             margin: 0;
+            background: #000;
+            color: #fff;
             font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -18,6 +18,7 @@
             margin-top: 40px;
             font-size: 48px;
             text-align: center;
+            color: #fff;
         }
 
         .grid {
@@ -30,18 +31,27 @@
         }
 
         .day {
-            background: #222;
-            border: 2px solid #444;
-            padding: 20px;
+            background: #111;
+            border: 2px solid #333;
+            padding: 25px;
             text-align: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.2s;
+            font-size: 26px;
             user-select: none;
+            transition: 0.25s;
         }
 
-        .day:hover {
-            background: #333;
+        .day.unlocked {
+            cursor: pointer;
+            background: #1a1a1a;
+            border-color: #555;
+        }
+
+        .day.unlocked:hover {
+            background: #222;
+        }
+
+        .day.locked {
+            visibility: hidden;   /* hides future boxes */
         }
     </style>
 </head>
@@ -54,14 +64,22 @@
 <script>
     const grid = document.getElementById("calendar");
 
+    // Today's date number (1–31)
+    const today = new Date().getDate();
+
     for (let i = 1; i <= 24; i++) {
         const box = document.createElement("div");
         box.className = "day";
         box.textContent = i;
 
-        box.addEventListener("click", () => {
-            window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
-        });
+        if (i <= today) {
+            box.classList.add("unlocked");
+            box.addEventListener("click", () => {
+                window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+            });
+        } else {
+            box.classList.add("locked");
+        }
 
         grid.appendChild(box);
     }
