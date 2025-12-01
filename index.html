@@ -18,40 +18,63 @@
             margin-top: 40px;
             font-size: 48px;
             text-align: center;
-            color: #fff;
         }
 
-        .grid {
+        /* Current Day Box */
+        #todayBox {
+            margin-top: 20px;
+            padding: 25px 40px;
+            font-size: 32px;
+            background: #111;
+            border: 2px solid #444;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        #todayBox:hover {
+            background: #1b1b1b;
+        }
+
+        /* Menu Area */
+        #menu {
             margin-top: 30px;
             width: 90%;
             max-width: 900px;
+            background: #111;
+            border: 2px solid #333;
+            padding: 20px;
+            display: none;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: #222;
+            border: 2px solid #555;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        .btn:hover {
+            background: #333;
+        }
+
+        /* Image area */
+        .image-area {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
         }
 
-        .day {
-            background: #111;
-            border: 2px solid #333;
-            padding: 25px;
-            text-align: center;
-            font-size: 26px;
-            user-select: none;
-            transition: 0.25s;
-        }
-
-        .day.unlocked {
-            cursor: pointer;
+        .placeholder {
             background: #1a1a1a;
-            border-color: #555;
-        }
-
-        .day.unlocked:hover {
-            background: #222;
-        }
-
-        .day.locked {
-            visibility: hidden;   /* hides future boxes */
+            border: 2px solid #333;
+            height: 150px;
         }
     </style>
 </head>
@@ -59,30 +82,39 @@
 
 <h1>24 Days of RickMass</h1>
 
-<div class="grid" id="calendar"></div>
+<!-- Current day box -->
+<div id="todayBox"></div>
+
+<!-- Hidden menu -->
+<div id="menu">
+    <div class="buttons">
+        <a class="btn" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Link 1</a>
+        <a class="btn" href="https://www.youtube.com" target="_blank">Link 2</a>
+    </div>
+
+    <div class="image-area">
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+    </div>
+</div>
 
 <script>
-    const grid = document.getElementById("calendar");
-
-    // Today's date number (1–31)
     const today = new Date().getDate();
+    const todayBox = document.getElementById("todayBox");
+    const menu = document.getElementById("menu");
 
-    for (let i = 1; i <= 24; i++) {
-        const box = document.createElement("div");
-        box.className = "day";
-        box.textContent = i;
-
-        if (i <= today) {
-            box.classList.add("unlocked");
-            box.addEventListener("click", () => {
-                window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
-            });
-        } else {
-            box.classList.add("locked");
-        }
-
-        grid.appendChild(box);
+    // Set the displayed day (1–24 only)
+    if (today >= 1 && today <= 24) {
+        todayBox.textContent = "Day " + today;
+    } else {
+        todayBox.textContent = "No Active Day";
     }
+
+    // Toggle menu on click
+    todayBox.addEventListener("click", () => {
+        menu.style.display = (menu.style.display === "none") ? "block" : "none";
+    });
 </script>
 
 </body>
